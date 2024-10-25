@@ -1,6 +1,6 @@
-# fivem-typescript-boilerplate
+# A multichar for ox core
 
-A boilerplate for creating FiveM resources with TypeScript.
+Messin around with it, don't expect much from it.
 
 ## Getting Started
 
