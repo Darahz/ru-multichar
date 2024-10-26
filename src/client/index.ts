@@ -41,10 +41,26 @@ onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]
     return
   }
 
-  SwitchInPlayer(PlayerPedId());
-  SetGameplayCamRelativeHeading(0);
+  SetNuiFocus(true, true)
 
-  emitNet('ox:setActiveCharacter', character.charId);
+  SendNUIMessage({
+    action: 'setVisible',
+    data: {
+      visible: true,
+      page: 'multichar'
+    },
+  });
+
+  setTimeout(() => {
+    SendNUIMessage({
+      action: 'setupCharacters',
+      data: {
+        characters: characters
+      },
+    });
+  }, 200);
+
+  // emitNet('ox:setActiveCharacter', characters[0].charId);
 });
 
 interface newCharacterData {
@@ -69,6 +85,37 @@ RegisterNuiCallback('mps-multichar:registerIdentity', (data: newCharacterData, c
   });
 
   emitNet('ox:setActiveCharacter', <NewCharacter>data);
+
+  cb(true);
+});
+
+RegisterNuiCallback('mps-multichar:selectedCharacter', (character: Character, cb: (data: unknown) => void) => {
+  const [x, y, z] = [
+    character?.x || SPAWN_LOCATION[0],
+    character?.y || SPAWN_LOCATION[1],
+    character?.z || SPAWN_LOCATION[2],
+  ];
+  const heading = character?.heading || SPAWN_LOCATION[3];
+
+  RequestCollisionAtCoord(x, y, z);
+  FreezeEntityPosition(cache.ped, true);
+  SetEntityCoordsNoOffset(cache.ped, x, y, z, true, true, false);
+  SetEntityHeading(cache.ped, heading);
+
+  SwitchInPlayer(PlayerPedId());
+  SetGameplayCamRelativeHeading(0);
+
+  SetNuiFocus(false, false);
+
+  SendNUIMessage({
+    action: 'setVisible',
+    data: {
+      visible: false
+    },
+  });
+
+  console.log('charId', character.charId);
+  emitNet('ox:setActiveCharacter', character.charId);
 
   cb(true);
 });
