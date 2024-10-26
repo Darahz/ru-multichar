@@ -12,16 +12,10 @@ body {
   height: 100%;
 }
 
-.boilerplate-wrapper {
+.nui-wrapper {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-}
-
-.boilerplate-modal-container {
-  background-color: #22232c;
-  padding: 16px;
-  color: white;
 }
