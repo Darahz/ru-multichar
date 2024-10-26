@@ -24,7 +24,7 @@ function App() {
       {visible && (
         <div className="nui-wrapper">
           {page === 'identity' && <Identity />}
-          {page === 'multichar' && <Multichar setPage={setPage} />}
+          {page === 'multichar' && <Multichar setPage={setPage} charSlots={charSlots} />}
         </div>
       )}
       {isEnvBrowser() && <DevDrawer page={page} setPage={setPage} />}

@@ -8,13 +8,13 @@ import { fetchNui } from "../utils/fetchNui";
 
 const canDelete = false;
 const canCreate = true;
-// const maxSlots = 5;
 
 interface MulticharProps {
+    charSlots: number;
     setPage: (page: string) => void;
 }
 
-const Multichar: React.FC<MulticharProps> = ({ setPage }) => {
+const Multichar: React.FC<MulticharProps> = ({ setPage, charSlots = 1}) => {
     const clipboard = useClipboard({ timeout: 2000 });
     const [characters, setCharacters] = useState<any[]>([]);
 
@@ -115,8 +115,8 @@ const Multichar: React.FC<MulticharProps> = ({ setPage }) => {
                         align="center"
                         gap={10}
                     >
-                        <Button size="md" onClick={createNewCharacter}>New Character</Button>
-                        {/* <Text size="sm">Slots Available: {characters.length}/{maxSlots}</Text> */}
+                        { characters.length !== charSlots && <Button size="md" onClick={createNewCharacter}>New Character</Button> }
+                        <Text size="sm">Slots Available: {characters.length}/{charSlots}</Text>
                     </Flex>
                 }
             </Flex>
