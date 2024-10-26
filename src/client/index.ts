@@ -4,12 +4,13 @@ import { Character, NewCharacter } from '@overextended/ox_core';
 const SPAWN_LOCATION = JSON.parse(GetConvar('ox:spawnLocation', "[-258.211, -293.077, 21.6132, 206.0]"));
 const CHARACTER_SLOTS = GetConvarInt('ox:characterSlots', 1);;
 
-SendNUIMessage({
-  action: 'setConfig',
-  data: {
-    maxSlots: CHARACTER_SLOTS
-  }
-});
+setTimeout(() => SendNUIMessage({
+    action: 'setConfig',
+    data: {
+      maxSlots: CHARACTER_SLOTS
+    }
+  }), 250
+);
 
 onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
 
