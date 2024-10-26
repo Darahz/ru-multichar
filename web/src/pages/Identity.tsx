@@ -39,7 +39,7 @@ const Identity = () => {
         close();
         const date = birthday;
         
-        fetchNui('mps-multichar', {
+        fetchNui('mps-multichar:registerIdentity', {
             firstName, lastName, gender, date
         }, { data: {status: false, statusMessage: ''}, delay: 200 })
         .then(r => {

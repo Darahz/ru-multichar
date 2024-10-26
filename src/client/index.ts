@@ -52,7 +52,7 @@ interface newCharacterData {
   date: number;
 }
 
-RegisterNuiCallback('mps-multichar', (data: newCharacterData, cb: (data: unknown) => void) => {
+RegisterNuiCallback('mps-multichar:registerIdentity', (data: newCharacterData, cb: (data: unknown) => void) => {
 
   SwitchInPlayer(PlayerPedId());
   SetGameplayCamRelativeHeading(0);
