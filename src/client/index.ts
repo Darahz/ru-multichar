@@ -1,23 +1,25 @@
-import Config from '@common/config';
-import { Greetings } from '@common/index';
-import { cache } from '@overextended/ox_lib/client';
+import { cache, sleep } from '@overextended/ox_lib/client';
+import { Character, NewCharacter } from '@overextended/ox_core'
 
-Greetings();
+onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
+  
+  SwitchOutPlayer(cache.ped, 1 | 8192, 1);
 
-if (Config.EnableNuiCommand) {
-  onNet(`${cache.resource}:openNui`, () => {
+  while (GetPlayerSwitchState() !== 5) await sleep(0);
+
+  DoScreenFadeIn(200);
+
+  const character = characters[0];
+  if (!character) {
     SetNuiFocus(true, true);
 
     SendNUIMessage({
       action: 'setVisible',
       data: {
         visible: true,
+        page: 'identity'
       },
     });
-  });
-
-  RegisterNuiCallback('exit', (data: null, cb: (data: unknown) => void) => {
-    SetNuiFocus(false, false);
-    cb({});
-  });
-}
+    return
+  }  
+});
