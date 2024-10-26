@@ -5,43 +5,19 @@ import { BsPerson } from "react-icons/bs";
 import { isEnvBrowser, noop } from "../utils/misc";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import { fetchNui } from "../utils/fetchNui";
+import { Character } from "@overextended/ox_core";
 
 const canDelete = false;
 const canCreate = true;
 
 interface MulticharProps {
+    characters: Character[];
     charSlots: number;
     setPage: (page: string) => void;
 }
 
-const Multichar: React.FC<MulticharProps> = ({ setPage, charSlots = 1}) => {
+const Multichar: React.FC<MulticharProps> = ({ characters = [], setPage, charSlots = 1}) => {
     const clipboard = useClipboard({ timeout: 2000 });
-    const [characters, setCharacters] = useState<any[]>([]);
-
-    useNuiEvent('setupCharacters', (data: {characters: any[]}) => {
-        setCharacters(data.characters);
-    });
-
-    if (isEnvBrowser()) {
-        useEffect(() => {
-            setTimeout(() => {
-                setCharacters([
-                    {
-                        charId: 1,
-                        stateId: "IJ0221",
-                        firstName: "Maximus",
-                        lastName: "Prime",
-                        x: 411.69232177734375,
-                        y: -1628.4000244140625,
-                        z: 29.2799072265625,
-                        heading: 243.77952575683594,
-                        lastPlayed: "26/10/2024"
-                        
-                    }
-                ])
-            }, 1000);
-        }, []);
-    };
 
     const selectCharacter = (character: any) => {
         fetchNui('mps-multichar:selectedCharacter', character);
