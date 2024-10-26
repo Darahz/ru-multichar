@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { isEnvBrowser } from './utils/misc';
 import { useNuiEvent } from './hooks/useNuiEvent';
+import Identity from './pages/Identity';
 import DevDrawer from './utils/devdrawer';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <>
       {visible && (
         <div className="boilerplate-wrapper">
+          {page === 'identity' && <Identity />}
         </div>
       )}
       {isEnvBrowser() && <DevDrawer page={page} setPage={setPage} />}

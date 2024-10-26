@@ -1,0 +1,10 @@
+.resetButton {
+    &:hover {
+        background-color: rgb(168, 12, 12);
+    }
+}
+.startButton {
+    &:hover {
+        background-color: rgb(19, 112, 0);
+    }
+}
