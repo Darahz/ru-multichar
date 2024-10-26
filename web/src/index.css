@@ -1,4 +1,11 @@
+html {
+  color-scheme: normal !important;
+}
+
 body {
+  background: none !important;
+  background-color: non !important;
+  overflow: hidden !important;
   height: 100vh;
   user-select: none;
   margin: 0;
