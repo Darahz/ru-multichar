@@ -13,7 +13,7 @@ const DevDrawer: React.FC<DevDrawerProps> = ({page, setPage}) => {
   
     return (
       <>
-        <Drawer opened={opened} onClose={close} title="Development Drawer">
+        <Drawer opened={opened} onClose={close} title="Development Drawer" position="right">
             <Title order={3}>Page Selector</Title>
             <Stack style={{marginTop: '1em'}}>
                 <Radio value="identity" checked={'identity' === page} onChange={(e) => setPage(e.target.value)} label="Identity" />
