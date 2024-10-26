@@ -34,7 +34,7 @@ createBuilder(
     await createFxmanifest({
       client_scripts: [outfiles.client],
       server_scripts: [outfiles.server],
-      files: ['lib/init.lua', 'lib/client/**.lua', 'locales/*.json', 'common/data/*.json', ...files],
+      files: files,
       dependencies: ['/server:7290', '/onesync'],
       metadata: {
         ui_page: 'dist/web/index.html',
