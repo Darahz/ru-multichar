@@ -51,6 +51,7 @@
     "@mantine/emotion": "^7.12.2",
     "@mantine/hooks": "^7.12.2",
     "@nativewrappers/fivem": "latest",
+    "@overextended/ox_core": "^1.1.2",
     "@overextended/ox_lib": "latest",
     "@tabler/icons-react": "^3.17.0",
     "dayjs": "^1.11.13",
