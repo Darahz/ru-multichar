@@ -1,16 +1,20 @@
+import React, { useEffect, useState } from "react";
 import { Accordion, Button, Code, Drawer, Flex, Text, Tooltip } from "@mantine/core";
 import { useClipboard } from '@mantine/hooks';
 import { BsPerson } from "react-icons/bs";
 import { isEnvBrowser, noop } from "../utils/misc";
 import { useNuiEvent } from "../hooks/useNuiEvent";
-import { useEffect, useState } from "react";
 import { fetchNui } from "../utils/fetchNui";
 
 const canDelete = false;
-const canCreate = false;
-const maxSlots = 5;
+const canCreate = true;
+// const maxSlots = 5;
 
-const Multichar = () => {
+interface MulticharProps {
+    setPage: (page: string) => void;
+}
+
+const Multichar: React.FC<MulticharProps> = ({ setPage }) => {
     const clipboard = useClipboard({ timeout: 2000 });
     const [characters, setCharacters] = useState<any[]>([]);
 
@@ -41,6 +45,10 @@ const Multichar = () => {
 
     const selectCharacter = (character: any) => {
         fetchNui('mps-multichar:selectedCharacter', character);
+    };
+
+    const createNewCharacter = () => {
+        setPage('identity');
     }
 
     if (characters.length == 0) return <></>;
@@ -107,8 +115,8 @@ const Multichar = () => {
                         align="center"
                         gap={10}
                     >
-                        <Button size="md">New Character</Button>
-                        <Text size="sm">Slots Available: {characters.length}/{maxSlots}</Text>
+                        <Button size="md" onClick={createNewCharacter}>New Character</Button>
+                        {/* <Text size="sm">Slots Available: {characters.length}/{maxSlots}</Text> */}
                     </Flex>
                 }
             </Flex>

@@ -3,7 +3,6 @@ import { isEnvBrowser } from './utils/misc';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import Identity from './pages/Identity';
 import DevDrawer from './utils/DevDrawer';
-import { Paper } from '@mantine/core';
 import Multichar from './pages/MultiChar';
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
       {visible && (
         <div className="nui-wrapper">
           {page === 'identity' && <Identity />}
-          {page === 'multichar' && <Multichar />}
+          {page === 'multichar' && <Multichar setPage={setPage} />}
         </div>
       )}
       {isEnvBrowser() && <DevDrawer page={page} setPage={setPage} />}
