@@ -2,7 +2,7 @@ import { cache, sleep } from '@overextended/ox_lib/client';
 import { Character, NewCharacter } from '@overextended/ox_core';
 
 const SPAWN_LOCATION = JSON.parse(GetConvar('ox:spawnLocation', "[-258.211, -293.077, 21.6132, 206.0]"));
-const CHARACTER_SLOTS = GetConvarInt('ox:characterSlots', 1);;
+const CHARACTER_SLOTS = GetConvarInt('ox:characterSlots', 1);
 
 setTimeout(() => SendNUIMessage({
     action: 'setConfig',
@@ -13,6 +13,13 @@ setTimeout(() => SendNUIMessage({
 );
 
 onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
+
+  SendNUIMessage({
+    action: 'setData',
+    data: {
+      characters: characters
+    },
+  });
 
   await sleep(500);
 
@@ -59,15 +66,6 @@ onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]
       page: 'multichar'
     },
   });
-
-  setTimeout(() => {
-    SendNUIMessage({
-      action: 'setupCharacters',
-      data: {
-        characters: characters
-      },
-    });
-  }, 200);
 
   // emitNet('ox:setActiveCharacter', characters[0].charId);
 });
@@ -123,7 +121,6 @@ RegisterNuiCallback('mps-multichar:selectedCharacter', (character: Character, cb
     },
   });
 
-  console.log('charId', character.charId);
   emitNet('ox:setActiveCharacter', character.charId);
 
   cb(true);
