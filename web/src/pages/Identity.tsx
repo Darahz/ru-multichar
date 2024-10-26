@@ -6,7 +6,7 @@ import styles from './Identity.module.css';
 import '@mantine/dates/styles.css';
 import { fetchNui } from "../utils/fetchNui";
 import { useDisclosure } from "@mantine/hooks";
-import { isEnvBrowser } from "src/utils/misc";
+import { isEnvBrowser } from "../utils/misc";
 
 const Identity = () => {
     const [opened, { open, close }] = useDisclosure(false);
