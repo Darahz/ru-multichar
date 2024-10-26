@@ -23,3 +23,26 @@ onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]
     return
   }  
 });
+
+interface newCharacterData {
+  firstName: string;
+  lastName: string;
+  gender: string;
+  date: number;
+}
+
+RegisterNuiCallback('mps-multichar', (data: newCharacterData, cb: (data: unknown) => void) => {
+
+  cb(true);
+
+  SetNuiFocus(false, false);
+
+  SendNUIMessage({
+    action: 'setVisible',
+    data: {
+      visible: false
+    },
+  });
+
+  emitNet('ox:setActiveCharacter', <NewCharacter>data);
+});
