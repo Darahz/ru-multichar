@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { isEnvBrowser } from './utils/misc';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import Identity from './pages/Identity';
-import DevDrawer from './utils/devdrawer';
+import DevDrawer from './utils/DevDrawer';
 import { Paper } from '@mantine/core';
 
 function App() {
