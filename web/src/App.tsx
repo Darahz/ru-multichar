@@ -3,6 +3,7 @@ import { isEnvBrowser } from './utils/misc';
 import { useNuiEvent } from './hooks/useNuiEvent';
 import Identity from './pages/Identity';
 import DevDrawer from './utils/devdrawer';
+import { Paper } from '@mantine/core';
 
 function App() {
   const [visible, setVisible] = useState<boolean>(isEnvBrowser());
@@ -17,6 +18,7 @@ function App() {
       {visible && (
         <div className="boilerplate-wrapper">
           {page === 'identity' && <Identity />}
+          {page === 'multichar' && <Paper style={{padding: 10}}>"MultiChar"</Paper>}
         </div>
       )}
       {isEnvBrowser() && <DevDrawer page={page} setPage={setPage} />}
