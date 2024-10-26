@@ -37,19 +37,17 @@ const Identity = () => {
 
     const validateInformation = () => {
         close();
-        // const date = birthday?.toLocaleDateString('fr-FR');
-        // const date = birthday?.getTime();
         const date = birthday;
         
         fetchNui('mps-multichar', {
             firstName, lastName, gender, date
-        }, { data: {status: true, statusMessage: ''}, delay: 200 })
+        }, { data: {status: false, statusMessage: ''}, delay: 200 })
         .then(r => {
             if (r.status) {
                 close();
             } else {
                 setValidationResponse(r.statusMessage);
-                if (isEnvBrowser()) alert(`Character Info Valid: ${r.status}`);
+                if (isEnvBrowser()) alert(`Info is most likely valid but you're: ${r.status}`);
             }
         });
     }
