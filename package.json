@@ -1,7 +1,7 @@
 {
   "name": "multichar-4-oxcore",
   "author": "Maximus7474",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "A simple proof of concept multichar for ox_core",
   "type": "module",
@@ -13,7 +13,9 @@
     "eslint": "eslint ./{src,web}/**/*.{ts,tsx}"
   },
   "keywords": [
-    "fivem", "oxcore", "ts"
+    "fivem",
+    "oxcore",
+    "ts"
   ],
   "repository": {
     "type": "git",
