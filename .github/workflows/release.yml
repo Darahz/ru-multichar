@@ -10,6 +10,9 @@ jobs:
     name: Build and Create Tagged release
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - name: Install archive tools
         run: sudo apt install zip
@@ -51,6 +54,8 @@ jobs:
           pnpm version ${{ github.ref_name }} --git-tag-version false
 
       - name: Update repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add .
           git commit -am '${{ github.ref_name }}'
