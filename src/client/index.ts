@@ -5,6 +5,8 @@ const SPAWN_LOCATION = JSON.parse(GetConvar('ox:spawnLocation', "[-258.211, -293
 
 onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
 
+  await sleep(500);
+
   SwitchToMultiFirstpart(PlayerPedId(), 1, 1);
 
   while (GetPlayerSwitchState() !== 5) await sleep(0);
