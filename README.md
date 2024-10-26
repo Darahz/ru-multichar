@@ -2,6 +2,8 @@
 
 Messin around with it, don't expect much from it.
 
+Check the ox_core docs for convar use for initial spawn and character slots.
+
 ## Getting Started
 
 ### Node.js v18+
