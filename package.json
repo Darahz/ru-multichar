@@ -1,8 +1,8 @@
 {
-  "name": "lgf_loading",
-  "author": "ViskCY",
-  "version": "1.0.0",
-  "license": "",
+  "name": "multichar-4-oxcore",
+  "author": "Maximus7474",
+  "version": "0.0.0",
+  "license": "MIT",
   "description": "",
   "type": "module",
   "scripts": {
@@ -17,9 +17,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Legacy-Framework/lgf_loading.git"
+    "url": "https://github.com/Maximus7474/mps-multichar-4-oxcore.git"
   },
-  "bugs": "https://github.com/Legacy-Framework/lgf_loading/issues",
+  "bugs": "https://github.com/Maximus7474/mps-multichar-4-oxcore/issues",
   "devDependencies": {
     "@citizenfx/client": "latest",
     "@citizenfx/server": "latest",
