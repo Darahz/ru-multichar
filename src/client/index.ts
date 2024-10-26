@@ -14,11 +14,11 @@ onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]
   DoScreenFadeIn(200);
 
   /* Code taken from ox_core/src/client/spawn.ts */
-  const character = characters[1];
+  const character = characters[0];
   const [x, y, z] = [
-    character?.x || SPAWN_LOCATION[0],
-    character?.y || SPAWN_LOCATION[1],
-    character?.z || SPAWN_LOCATION[2],
+    SPAWN_LOCATION[0],
+    SPAWN_LOCATION[1],
+    SPAWN_LOCATION[2],
   ];
   const heading = character?.heading || SPAWN_LOCATION[3];
 
