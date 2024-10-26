@@ -7,12 +7,17 @@ import Multichar from './pages/MultiChar';
 
 function App() {
   const [visible, setVisible] = useState<boolean>(isEnvBrowser());
-  const [page, setPage] = useState<string>('multichar')
+  const [page, setPage] = useState<string>('multichar');
+  const [charSlots, setCharSlots] = useState<number>(1);
 
   useNuiEvent('setVisible', (data: { visible?: boolean, page?: string }) => {
     setVisible(data.visible || false);
     if (data.page) setPage(data.page);
   });
+
+  useNuiEvent('setConfig', (data: {maxSlots: number}) => {
+    setCharSlots(data.maxSlots);
+  })
 
   return (
     <>
