@@ -3,7 +3,7 @@
   "author": "Maximus7474",
   "version": "0.0.0",
   "license": "MIT",
-  "description": "",
+  "description": "A simple proof of concept multichar for ox_core",
   "type": "module",
   "scripts": {
     "web:dev": "cd web && vite dev",
@@ -13,7 +13,7 @@
     "eslint": "eslint ./{src,web}/**/*.{ts,tsx}"
   },
   "keywords": [
-    "fivem"
+    "fivem", "oxcore", "ts"
   ],
   "repository": {
     "type": "git",
