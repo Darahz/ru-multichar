@@ -2,6 +2,14 @@ import { cache, sleep } from '@overextended/ox_lib/client';
 import { Character, NewCharacter } from '@overextended/ox_core';
 
 const SPAWN_LOCATION = JSON.parse(GetConvar('ox:spawnLocation', "[-258.211, -293.077, 21.6132, 206.0]"));
+const CHARACTER_SLOTS = GetConvarInt('ox:characterSlots', 1);;
+
+SendNUIMessage({
+  action: 'setConfig',
+  data: {
+    maxSlots: CHARACTER_SLOTS
+  }
+});
 
 onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
 
@@ -20,7 +28,7 @@ onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]
     SPAWN_LOCATION[1],
     SPAWN_LOCATION[2],
   ];
-  const heading = character?.heading || SPAWN_LOCATION[3];
+  const heading = SPAWN_LOCATION[3];
 
   RequestCollisionAtCoord(x, y, z);
   FreezeEntityPosition(cache.ped, true);
