@@ -4,15 +4,11 @@ import { Character, NewCharacter } from '@overextended/ox_core';
 const SPAWN_LOCATION = JSON.parse(GetConvar('ox:spawnLocation', "[-258.211, -293.077, 21.6132, 206.0]"));
 const CHARACTER_SLOTS = GetConvarInt('ox:characterSlots', 1);
 
-setTimeout(() => SendNUIMessage({
-    action: 'setConfig',
-    data: {
-      maxSlots: CHARACTER_SLOTS
-    }
-  }), 250
-);
+let uiLoaded = false;
 
 onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
+
+  while (!uiLoaded) await sleep(5);
 
   SendNUIMessage({
     action: 'setData',
@@ -70,14 +66,14 @@ onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]
   // emitNet('ox:setActiveCharacter', characters[0].charId);
 });
 
-interface newCharacterData {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  date: number;
-}
+RegisterNuiCallback('mps-multichar:setConfig', (data: boolean, cb: (data: unknown) => void) => {
+  uiLoaded = data;
+  cb({
+    maxSlots: CHARACTER_SLOTS
+  })
+})
 
-RegisterNuiCallback('mps-multichar:registerIdentity', (data: newCharacterData, cb: (data: unknown) => void) => {
+RegisterNuiCallback('mps-multichar:registerIdentity', (data: NewCharacter, cb: (data: unknown) => void) => {
 
   SwitchInPlayer(PlayerPedId());
   SetGameplayCamRelativeHeading(0);
