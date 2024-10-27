@@ -1,7 +1,7 @@
 {
   "name": "multichar-4-oxcore",
   "author": "Maximus7474",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "description": "A simple proof of concept multichar for ox_core",
   "type": "module",
