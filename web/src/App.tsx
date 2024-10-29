@@ -16,20 +16,20 @@ function App() {
   const [characters, setCharacters] = useState<Character[]>([]);
 
   if (!loaded) {
-    fetchNui('mps-multichar:setConfig', true, {data: {maxSlots: 5}})
-    .then(r => {
-      setLoaded(true);
-      setCharSlots(r.maxSlots);
-    })
-    .catch(err => console.error('Unable to get config', err));
+    fetchNui('mps-multichar:setConfig', true, { data: { maxSlots: 5 } })
+      .then((r) => {
+        setLoaded(true);
+        setCharSlots(r.maxSlots);
+      })
+      .catch((err) => console.error('Unable to get config', err));
   }
 
-  useNuiEvent('setVisible', (data: { visible?: boolean, page?: string }) => {
+  useNuiEvent('setVisible', (data: { visible?: boolean; page?: string }) => {
     setVisible(data.visible || false);
     if (data.page) setPage(data.page);
   });
 
-  useNuiEvent('setData', (data: {characters?: Character[]}) => {
+  useNuiEvent('setData', (data: { characters?: Character[] }) => {
     if (data.characters) setCharacters(data.characters);
   });
 
@@ -39,19 +39,19 @@ function App() {
         setCharacters([
           {
             charId: 1,
-            stateId: "IJ0221",
-            firstName: "Maximus",
-            lastName: "Prime",
+            stateId: 'IJ0221',
+            firstName: 'Maximus',
+            lastName: 'Prime',
             x: 411.69232177734375,
             y: -1628.4000244140625,
             z: 29.2799072265625,
             heading: 243.77952575683594,
-            lastPlayed: "26/10/2024"
-          }
-        ])
+            lastPlayed: '26/10/2024',
+          },
+        ]);
       }, 1000);
     }, []);
-  };
+  }
 
   return (
     <>
