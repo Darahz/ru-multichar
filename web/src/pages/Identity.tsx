@@ -1,4 +1,4 @@
-import { Radio, Paper, Title, Group, TextInput, Button, Flex, Modal, Text } from "@mantine/core"
+import { Radio, Group, TextInput, Button, Flex, Modal, Text } from "@mantine/core"
 import { DateInput } from "@mantine/dates";
 import React, { useState } from "react";
 
@@ -54,7 +54,8 @@ const Identity: React.FC<IdentityProps> = ({ canReturn = false, setPage = noop }
                 setValidationResponse(r.statusMessage);
             }
             if (isEnvBrowser()) alert(`Info is most likely valid but you're in a browser so nuh uh`);
-        });
+        })
+        .catch(noop);
     }
 
     return (<>

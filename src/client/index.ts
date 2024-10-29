@@ -1,10 +1,10 @@
 import { cache, sleep } from '@overextended/ox_lib/client';
 import { Character, NewCharacter } from '@overextended/ox_core';
 
-const SPAWN_LOCATION = JSON.parse(GetConvar('ox:spawnLocation', "[-258.211, -293.077, 21.6132, 206.0]"));
-const CHARACTER_SLOTS = GetConvarInt('ox:characterSlots', 1);
+const SPAWN_LOCATION = JSON.parse(GetConvar('ox:spawnLocation', "[-258.211, -293.077, 21.6132, 206.0]")) as [number, number, number, number];
+const CHARACTER_SLOTS: number = GetConvarInt('ox:characterSlots', 1);
 
-let uiLoaded = false;
+let uiLoaded: boolean = false;
 
 onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
 
@@ -27,7 +27,7 @@ onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]
 
   /* Code taken from ox_core/src/client/spawn.ts */
   const character = characters[0];
-  const [x, y, z] = [
+  const [x, y, z]: number[] = [
     SPAWN_LOCATION[0],
     SPAWN_LOCATION[1],
     SPAWN_LOCATION[2],
@@ -87,7 +87,7 @@ RegisterNuiCallback('mps-multichar:registerIdentity', (data: NewCharacter, cb: (
     },
   });
 
-  emitNet('ox:setActiveCharacter', <NewCharacter>data);
+  emitNet('ox:setActiveCharacter', data);
 
   cb(true);
 });

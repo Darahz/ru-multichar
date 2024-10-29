@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Accordion, Button, Code, Drawer, Flex, Text, Tooltip } from "@mantine/core";
 import { useClipboard, useDisclosure } from '@mantine/hooks';
 import { BsPerson } from "react-icons/bs";
-import { isEnvBrowser, noop } from "../utils/misc";
-import { useNuiEvent } from "../hooks/useNuiEvent";
+import { noop } from "../utils/misc";
 import { fetchNui } from "../utils/fetchNui";
 import { Character } from "@overextended/ox_core";
 
@@ -20,7 +19,7 @@ const Multichar: React.FC<MulticharProps> = ({ characters = [], setPage, charSlo
     const [opened, { open, close }] = useDisclosure(false);
     const clipboard = useClipboard({ timeout: 2000 });
 
-    const selectCharacter = (character: any) => {
+    const selectCharacter = (character: Character) => {
         close();
         setTimeout(() => fetchNui('mps-multichar:selectedCharacter', character), 500);
     };

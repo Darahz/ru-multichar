@@ -20,7 +20,8 @@ function App() {
     .then(r => {
       setLoaded(true);
       setCharSlots(r.maxSlots);
-    });
+    })
+    .catch(err => console.error('Unable to get config', err));
   }
 
   useNuiEvent('setVisible', (data: { visible?: boolean, page?: string }) => {
