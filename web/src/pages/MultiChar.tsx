@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Accordion, Button, Code, Drawer, Flex, Text, Tooltip } from "@mantine/core";
-import { useClipboard } from '@mantine/hooks';
+import { useClipboard, useDisclosure } from '@mantine/hooks';
 import { BsPerson } from "react-icons/bs";
 import { isEnvBrowser, noop } from "../utils/misc";
 import { useNuiEvent } from "../hooks/useNuiEvent";
@@ -17,15 +17,23 @@ interface MulticharProps {
 }
 
 const Multichar: React.FC<MulticharProps> = ({ characters = [], setPage, charSlots = 1}) => {
+    const [opened, { open, close }] = useDisclosure(false);
     const clipboard = useClipboard({ timeout: 2000 });
 
     const selectCharacter = (character: any) => {
-        fetchNui('mps-multichar:selectedCharacter', character);
+        close();
+        setTimeout(() => fetchNui('mps-multichar:selectedCharacter', character), 500);
     };
 
     const createNewCharacter = () => {
         setPage('identity');
-    }
+    };
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (!opened) open();
+        }, 100);
+    }, []);
 
     if (characters.length == 0) return <></>;
 
@@ -72,7 +80,7 @@ const Multichar: React.FC<MulticharProps> = ({ characters = [], setPage, charSlo
 
     return (<>
         <Drawer
-            opened={true} onClose={noop} title="Character Selection"
+            opened={opened} onClose={noop} title="Character Selection"
             closeOnClickOutside={false} closeOnEscape={false} withCloseButton={false}
             offset={16} radius={16}
             withOverlay={false}
