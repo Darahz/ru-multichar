@@ -28,6 +28,12 @@ const DevDrawer: React.FC<DevDrawerProps> = ({ page, setPage }) => {
             onChange={(e) => setPage(e.target.value)}
             label="Multicharacter"
           />
+          <Radio
+            value="browseLocation"
+            checked={'browseLocation' === page}
+            onChange={(e) => setPage(e.target.value)}
+            label="Locations"
+          />
         </Stack>
       </Drawer>
 
