@@ -68,8 +68,11 @@ const Multichar: React.FC<MulticharProps> = ({ characters = [], setPage, charSlo
           </Flex>
         ) : (
           <Flex justify="space-around" style={{ padding: '0.5em 1em' }}>
-            <Button style={{ width: '30%' }} onClick={() => selectCharacter(item)}>
-              Play
+            <Button style={{ width: 'auto' }} onClick={() => selectCharacter(item)}>
+              Select
+            </Button>
+            <Button style={{ width: 'auto' }} onClick={() => selectCharacter(item)}>
+              Last Location
             </Button>
           </Flex>
         )}
