@@ -47,6 +47,7 @@ function App() {
             z: 29.2799072265625,
             heading: 243.77952575683594,
             lastPlayed: '26/10/2024',
+            gender:"male"
           },
         ]);
       }, 1000);
