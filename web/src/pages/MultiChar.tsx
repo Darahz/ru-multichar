@@ -13,15 +13,23 @@ interface MulticharProps {
   characters: Character[];
   charSlots: number;
   setPage: (page: string) => void;
+  onSelectCharacter: (character: Character) => void;
 }
 
-const Multichar: React.FC<MulticharProps> = ({ characters = [], setPage, charSlots = 1 }) => {
+const Multichar: React.FC<MulticharProps> = ({ 
+  characters = [], 
+  setPage, 
+  charSlots = 1,
+  onSelectCharacter 
+}) => {
   const [opened, { open, close }] = useDisclosure(false);
   const clipboard = useClipboard({ timeout: 2000 });
 
   const selectCharacter = (character: Character) => {
-    close();
-    setTimeout(() => fetchNui('mps-multichar:selectedCharacter', character), 500);
+    onSelectCharacter(character);
+    setPage('browseLocation');
+    //setTimeout(() => fetchNui('mps-multichar:selectedCharacter', character), 500);
+
   };
 
   const createNewCharacter = () => {
