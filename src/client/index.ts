@@ -91,13 +91,27 @@ RegisterNuiCallback('mps-multichar:registerIdentity', (data: NewCharacter, cb: (
   cb(true);
 });
 
-RegisterNuiCallback('mps-multichar:selectedCharacter', (character: Character, cb: (data: unknown) => void) => {
-  const [x, y, z] = [
-    character?.x || SPAWN_LOCATION[0],
-    character?.y || SPAWN_LOCATION[1],
-    character?.z || SPAWN_LOCATION[2],
-  ];
-  const heading = character?.heading || SPAWN_LOCATION[3];
+interface SpawnData {
+  character: Character;
+  coords?: {
+    x: number;
+    y: number;
+    z: number;
+    w: number;
+  };
+}
+
+RegisterNuiCallback('mps-multichar:selectedCharacter', (data: SpawnData, cb: (data: unknown) => void) => {
+  const { character, coords } = data;
+  
+  const [x, y, z] = coords ? 
+    [coords.x, coords.y, coords.z] : 
+    [
+      character?.x || SPAWN_LOCATION[0],
+      character?.y || SPAWN_LOCATION[1],
+      character?.z || SPAWN_LOCATION[2],
+    ];
+  const heading = coords ? coords.w : character?.heading || SPAWN_LOCATION[3];
 
   RequestCollisionAtCoord(x, y, z);
   FreezeEntityPosition(cache.ped, true);
