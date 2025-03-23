@@ -16,6 +16,7 @@ function App() {
   const [page, setPage] = useState<string>('identity');
   const [charSlots, setCharSlots] = useState<number>(1);
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | undefined>(undefined);
 
   if (!loaded) {
     fetchNui('mps-multichar:setConfig', true, { data: { maxSlots: 5 } })
