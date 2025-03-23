@@ -5,6 +5,8 @@ import { fetchNui } from './utils/fetchNui';
 import Identity from './pages/Identity';
 import DevDrawer from './utils/DevDrawer';
 import Multichar from './pages/MultiChar';
+import BrowseLocation from './pages/BrowseLocation';
+import React from 'react';
 
 import { Character } from '@overextended/ox_core';
 
@@ -59,7 +61,20 @@ function App() {
       {visible && (
         <div className="nui-wrapper">
           {page === 'identity' && <Identity setPage={setPage} canReturn={characters.length > 0} />}
-          {page === 'multichar' && <Multichar setPage={setPage} characters={characters} charSlots={charSlots} />}
+          {page === 'multichar' && (
+            <Multichar 
+              setPage={setPage} 
+              characters={characters} 
+              charSlots={charSlots}
+              onSelectCharacter={setSelectedCharacter}
+            />
+          )}
+          {page === 'browseLocation' && (
+            <BrowseLocation 
+              setPage={setPage} 
+              character={selectedCharacter} 
+            />
+          )}
         </div>
       )}
       {isEnvBrowser() && <DevDrawer page={page} setPage={setPage} />}
