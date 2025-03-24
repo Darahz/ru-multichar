@@ -1,8 +1,7 @@
 # A multichar for ox core
 
-Messin around with it, don't expect much from it.
-
-Check the ox_core docs for convar use for initial spawn and character slots.
+Check the original repo as most of the work is done by them
+[`mps-multichar-4-oxcore`](https://github.com/Maximus7474/mps-multichar-4-oxcore) Maximus7474's repo
 
 ## Getting Started
 
