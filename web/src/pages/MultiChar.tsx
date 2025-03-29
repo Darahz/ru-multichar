@@ -16,12 +16,7 @@ interface MulticharProps {
   onSelectCharacter: (character: Character) => void;
 }
 
-const Multichar: React.FC<MulticharProps> = ({ 
-  characters = [], 
-  setPage, 
-  charSlots = 1,
-  onSelectCharacter 
-}) => {
+const Multichar: React.FC<MulticharProps> = ({ characters = [], setPage, charSlots = 1, onSelectCharacter }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const clipboard = useClipboard({ timeout: 2000 });
 
@@ -52,7 +47,9 @@ const Multichar: React.FC<MulticharProps> = ({
     return (
       <Accordion.Item key={`${item.charId}`} value={`${item.charId}`}>
         <Accordion.Control icon={<BsPerson size="0.8rem" />}>
-          <Text size="sm">{item.firstName} {item.lastName}</Text>
+          <Text size="sm">
+            {item.firstName} {item.lastName}
+          </Text>
         </Accordion.Control>
         <Accordion.Panel>
           <Stack gap="xs">
@@ -63,7 +60,7 @@ const Multichar: React.FC<MulticharProps> = ({
                   style={{
                     fontSize: '0.85rem',
                     marginLeft: '0.5rem',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                   }}
                   onClick={() => {
                     clipboard.copy(item.stateId);
@@ -78,15 +75,10 @@ const Multichar: React.FC<MulticharProps> = ({
             <Text size="sm">Last Played: {item.lastPlayed}</Text>
 
             <Flex gap="xs" mt="xs">
-              <Button 
-                variant="light"
-                size="xs"
-                style={{ flex: 1 }}
-                onClick={() => selectCharacter(item)}
-              >
+              <Button variant="light" size="xs" style={{ flex: 1 }} onClick={() => selectCharacter(item)}>
                 Select
               </Button>
-              <Popover 
+              <Popover
                 width={200}
                 position="bottom"
                 withArrow
@@ -98,15 +90,15 @@ const Multichar: React.FC<MulticharProps> = ({
                     backgroundColor: 'rgba(0, 0, 0, 0.75)',
                     backdropFilter: 'blur(10px)',
                     border: `1px solid ${theme.colors.dark[4]}`,
-                  }
+                  },
                 })}
               >
                 <Popover.Target>
-                  <Button 
+                  <Button
                     variant="subtle"
                     size="xs"
                     style={{ flex: 1 }}
-                    onClick={() => lastLocationOpened ? closeLastLocation() : openLastLocation()}
+                    onClick={() => (lastLocationOpened ? closeLastLocation() : openLastLocation())}
                   >
                     Last Location
                   </Button>
@@ -117,9 +109,9 @@ const Multichar: React.FC<MulticharProps> = ({
                       Spawn at last location?
                     </Text>
                     <Flex gap="xs">
-                      <Button 
-                        variant="light" 
-                        size="xs" 
+                      <Button
+                        variant="light"
+                        size="xs"
                         fullWidth
                         onClick={() => {
                           handleLastLocation(item);
@@ -129,12 +121,7 @@ const Multichar: React.FC<MulticharProps> = ({
                       >
                         Yes
                       </Button>
-                      <Button 
-                        variant="subtle" 
-                        size="xs" 
-                        fullWidth
-                        onClick={closeLastLocation}
-                      >
+                      <Button variant="subtle" size="xs" fullWidth onClick={closeLastLocation}>
                         No
                       </Button>
                     </Flex>
@@ -160,31 +147,28 @@ const Multichar: React.FC<MulticharProps> = ({
       radius={4}
       withOverlay={false}
       size="md"
-      styles={({
+      styles={{
         content: {
           backgroundColor: 'rgba(0, 0, 0, 0.75)',
           backdropFilter: 'blur(10px)',
           height: '100vh',
-          overflow: 'hidden', // Prevent scrollbar on drawer content
+          overflow: 'hidden',
         },
         header: {
           backgroundColor: 'transparent',
         },
         title: {
           color: 'white',
-        }
-      })}
+        },
+      }}
     >
-      <Flex 
-        direction="column" 
-        h="calc(100vh - 60px)"
-      >
-        <Accordion 
+      <Flex direction="column" h="calc(100vh - 60px)">
+        <Accordion
           variant="filled"
           defaultValue={`${characters[0]?.charId}`}
           styles={(theme) => ({
             root: {
-              overflowY: 'auto', // Add scrollbar only to accordion if needed
+              overflowY: 'auto',
               flex: 1,
             },
             item: {
@@ -197,20 +181,16 @@ const Multichar: React.FC<MulticharProps> = ({
             },
             panel: {
               padding: '0.75rem',
-            }
+            },
           })}
         >
           {charAccordeon}
         </Accordion>
-        
+
         {canCreate && (
           <Flex direction="column" align="center" gap="xs" py={8}>
             {characters.length !== charSlots && (
-              <Button 
-                size="sm"
-                variant="light"
-                onClick={createNewCharacter}
-              >
+              <Button size="sm" variant="light" onClick={createNewCharacter}>
                 New Character
               </Button>
             )}
