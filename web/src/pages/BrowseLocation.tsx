@@ -46,28 +46,28 @@ const hotels: Location[] = [
 const apartments: Location[] = [
   {
     id: 1,
-    name: "Eclipse Towers Apt 31",
+    name: "Eclipse Towers",
     description: "Luxury apartment with city view",
     image: "https://static.wikia.nocookie.net/gtawiki/images/3/3c/EclipseTowers-GTAV.png",
     coords: { x: -773.12, y: 312.45, z: 85.70, w: 175.25 }
   },
   {
     id: 2,
-    name: "Alta Street Apt 57",
+    name: "Alta Street",
     description: "Modern apartment in Downtown",
     image: "https://static.wikia.nocookie.net/gtawiki/images/e/e6/3AltaStreet-GTAV.png",
     coords: { x: -269.96, y: -955.87, z: 31.22, w: 204.89 }
   },
   {
     id: 3,
-    name: "Weazel Plaza Apt 26",
+    name: "Weazel Plaza",
     description: "High-end apartment near Rockford Hills",
     image: "https://static.wikia.nocookie.net/gtawiki/images/1/11/WeazelPlaza-GTA5.png",
     coords: { x: -909.49, y: -452.36, z: 39.60, w: 118.45 }
   },
   {
     id: 4,
-    name: "Del Perro Heights Apt 20",
+    name: "Del Perro Heights",
     description: "Beachside luxury living",
     image: "https://static.wikia.nocookie.net/gtawiki/images/0/03/DelPerroHeights-GTAV.png",
     coords: { x: -1447.06, y: -537.96, z: 34.74, w: 208.34 }
