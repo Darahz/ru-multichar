@@ -39,7 +39,7 @@ const hotels: Location[] = [
     name: "Bayview Lodge",
     description: "Peaceful motel near Paleto Bay",
     image: "https://static.wikia.nocookie.net/gtawiki/images/1/1b/BayviewLodge-GTAV.png",
-    coords: { x: -694.61, y: 5802.22, z: 17.32, w: 67.89 }
+    coords: { x: -688.30, y: 5763.90, z: 17.33, w: 64.14 }
   }
 ];
 
