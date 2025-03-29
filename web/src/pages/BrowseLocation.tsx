@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Tabs, Button, Card, Group, Text, Stack, Drawer, Flex, Image, SimpleGrid, rgba } from '@mantine/core';
+import { Tabs, Button, Card, Group, Text, Stack, Drawer, Flex, Image, SimpleGrid, Popover, rgba } from '@mantine/core';
 import { IconHome, IconBuildingSkyscraper, IconMapPin, IconApps } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { noop } from '../utils/misc';
@@ -87,6 +87,7 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
         character,
         coords: location.coords
       }), 500);
+      close();
   };
 
   useEffect(() => {
@@ -95,33 +96,83 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
     }, 100);
   }, []);
 
-  const LocationCard: React.FC<{ location: Location }> = ({ location }) => (
-    <Card shadow="xs" padding="sm" radius="sm" withBorder h={280}>
-      <Card.Section>
-        <Image
-          src={location.image}
-          height={140}
-          alt={location.name}
-          fit="cover"
-          draggable={false}
-        />
-      </Card.Section>
-      <Stack gap="xs" mt="xs" justify="space-between" h="calc(100% - 140px)">
-        <div>
-          <Text fw={500} size="sm" mb={4}>{location.name}</Text>
-          <Text size="xs" c="dimmed" lineClamp={2}>{location.description}</Text>
-        </div>
-        <Button 
-          variant="subtle" 
-          fullWidth 
-          size="xs" 
-          onClick={() => handleSelect(location)}
-        >
-          Select
-        </Button>
-      </Stack>
-    </Card>
-  );
+  const LocationCard: React.FC<{ location: Location }> = ({ location }) => {
+    const [popoverOpened, { open, close }] = useDisclosure(false);  // renamed to avoid confusion
+
+    return (
+      <Card shadow="xs" padding="sm" radius="sm" withBorder h={280}>
+        <Card.Section>
+          <Image
+            src={location.image}
+            height={140}
+            alt={location.name}
+            fit="cover"
+            draggable={false}
+          />
+        </Card.Section>
+        <Stack gap="xs" mt="xs" justify="space-between" h="calc(100% - 140px)">
+          <div>
+            <Text fw={500} size="sm" mb={4}>{location.name}</Text>
+            <Text size="xs" c="dimmed" lineClamp={2}>{location.description}</Text>
+          </div>
+          <Popover 
+            width={200}
+            position="top"
+            withArrow
+            shadow="md"
+            opened={popoverOpened}
+            onChange={close}
+            styles={(theme) => ({
+              dropdown: {
+                backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                backdropFilter: 'blur(10px)',
+                border: `1px solid ${theme.colors.dark[4]}`,
+              }
+            })}
+          >
+            <Popover.Target>
+              <Button 
+                variant="subtle" 
+                fullWidth 
+                size="xs"
+                onClick={() => popoverOpened ? close() : open()}
+              >
+                Select
+              </Button>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <Stack gap="xs">
+                <Text size="sm" c="white">
+                  Spawn at {location.name}?
+                </Text>
+                <Flex gap="xs">
+                  <Button 
+                    variant="light" 
+                    size="xs" 
+                    fullWidth
+                    onClick={() => {
+                      handleSelect(location);
+                      close();
+                    }}
+                  >
+                    Yes
+                  </Button>
+                  <Button 
+                    variant="subtle" 
+                    size="xs" 
+                    fullWidth
+                    onClick={close}
+                  >
+                    No
+                  </Button>
+                </Flex>
+              </Stack>
+            </Popover.Dropdown>
+          </Popover>
+        </Stack>
+      </Card>
+    );
+  };
 
   return (
     <Drawer
