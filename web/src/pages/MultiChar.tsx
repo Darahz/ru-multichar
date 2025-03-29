@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Accordion, Button, Code, Drawer, Flex, Stack, Text, Tooltip } from '@mantine/core';
+import { Accordion, Button, Code, Drawer, Flex, Stack, Text, Tooltip, Popover } from '@mantine/core';
 import { useClipboard, useDisclosure } from '@mantine/hooks';
 import { BsPerson } from 'react-icons/bs';
 import { noop } from '../utils/misc';
+import { fetchNui } from '../utils/fetchNui';
 import { Character } from '@overextended/ox_core';
 
 const canDelete = false;
@@ -29,6 +30,13 @@ const Multichar: React.FC<MulticharProps> = ({
     setPage('browseLocation');
   };
 
+  const handleLastLocation = (character: Character) => {
+    setTimeout(() => fetchNui('mps-multichar:selectedCharacter', {
+      character,
+      coords: { x: character.x, y: character.y, z: character.z, heading: character.heading }
+    }), 500);
+  };
+
   const createNewCharacter = () => {
     setPage('identity');
   };
@@ -41,56 +49,107 @@ const Multichar: React.FC<MulticharProps> = ({
 
   if (characters.length == 0) return <></>;
 
-  const charAccordeon = characters.map((item) => (
-    <Accordion.Item key={`${item.charId}`} value={`${item.charId}`}>
-      <Accordion.Control icon={<BsPerson size="0.8rem" />}>
-        <Text size="sm">{item.firstName} {item.lastName}</Text>
-      </Accordion.Control>
-      <Accordion.Panel>
-        <Stack gap="xs">
-          <Text size="sm">
-            State ID:
-            <Tooltip label={!clipboard.copied ? 'Click to copy' : 'Copied !'}>
-              <Code
-                style={{
-                  fontSize: '0.85rem',
-                  marginLeft: '0.5rem',
-                  cursor: 'pointer'
-                }}
-                onClick={() => {
-                  clipboard.copy(item.stateId);
-                  setTimeout(() => clipboard.reset(), 2000);
-                }}
+  const charAccordeon = characters.map((item) => {
+    const [lastLocationOpened, { open: openLastLocation, close: closeLastLocation }] = useDisclosure(false);
+
+    return (
+      <Accordion.Item key={`${item.charId}`} value={`${item.charId}`}>
+        <Accordion.Control icon={<BsPerson size="0.8rem" />}>
+          <Text size="sm">{item.firstName} {item.lastName}</Text>
+        </Accordion.Control>
+        <Accordion.Panel>
+          <Stack gap="xs">
+            <Text size="sm">
+              State ID:
+              <Tooltip label={!clipboard.copied ? 'Click to copy' : 'Copied !'}>
+                <Code
+                  style={{
+                    fontSize: '0.85rem',
+                    marginLeft: '0.5rem',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => {
+                    clipboard.copy(item.stateId);
+                    setTimeout(() => clipboard.reset(), 2000);
+                  }}
+                >
+                  {item.stateId}
+                </Code>
+              </Tooltip>
+            </Text>
+
+            <Text size="sm">Last Played: {item.lastPlayed}</Text>
+
+            <Flex gap="xs" mt="xs">
+              <Button 
+                variant="light"
+                size="xs"
+                style={{ flex: 1 }}
+                onClick={() => selectCharacter(item)}
               >
-                {item.stateId}
-              </Code>
-            </Tooltip>
-          </Text>
-
-          <Text size="sm">Last Played: {item.lastPlayed}</Text>
-
-          <Flex gap="xs" mt="xs">
-            <Button 
-              variant="light"
-              size="xs"
-              style={{ flex: 1 }}
-              onClick={() => selectCharacter(item)}
-            >
-              Select
-            </Button>
-            <Button 
-              variant="subtle"
-              size="xs"
-              style={{ flex: 1 }}
-              onClick={() => selectCharacter(item)}
-            >
-              Last Location
-            </Button>
-          </Flex>
-        </Stack>
-      </Accordion.Panel>
-    </Accordion.Item>
-  ));
+                Select
+              </Button>
+              <Popover 
+                width={200}
+                position="bottom"
+                withArrow
+                shadow="md"
+                opened={lastLocationOpened}
+                onChange={closeLastLocation}
+                styles={(theme) => ({
+                  dropdown: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                    backdropFilter: 'blur(10px)',
+                    border: `1px solid ${theme.colors.dark[4]}`,
+                  }
+                })}
+              >
+                <Popover.Target>
+                  <Button 
+                    variant="subtle"
+                    size="xs"
+                    style={{ flex: 1 }}
+                    onClick={() => lastLocationOpened ? closeLastLocation() : openLastLocation()}
+                  >
+                    Last Location
+                  </Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                  <Stack gap="xs">
+                    <Text size="sm" c="white">
+                      Spawn at last location?
+                    </Text>
+                    <Flex gap="xs">
+                      <Button 
+                        variant="light" 
+                        size="xs" 
+                        fullWidth
+                        onClick={() => {
+                          handleLastLocation(item);
+                          closeLastLocation();
+                          close();
+                        }}
+                      >
+                        Yes
+                      </Button>
+                      <Button 
+                        variant="subtle" 
+                        size="xs" 
+                        fullWidth
+                        onClick={closeLastLocation}
+                      >
+                        No
+                      </Button>
+                    </Flex>
+                  </Stack>
+                </Popover.Dropdown>
+              </Popover>
+            </Flex>
+          </Stack>
+        </Accordion.Panel>
+      </Accordion.Item>
+    );
+  });
 
   return (
     <Drawer
