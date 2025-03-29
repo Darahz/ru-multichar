@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { Accordion, Button, Code, Drawer, Flex, Text, Tooltip } from '@mantine/core';
+import { Accordion, Button, Code, Drawer, Flex, Stack, Text, Tooltip } from '@mantine/core';
 import { useClipboard, useDisclosure } from '@mantine/hooks';
 import { BsPerson } from 'react-icons/bs';
 import { noop } from '../utils/misc';
-import { fetchNui } from '../utils/fetchNui';
 import { Character } from '@overextended/ox_core';
 
 const canDelete = false;
@@ -28,8 +27,6 @@ const Multichar: React.FC<MulticharProps> = ({
   const selectCharacter = (character: Character) => {
     onSelectCharacter(character);
     setPage('browseLocation');
-    //setTimeout(() => fetchNui('mps-multichar:selectedCharacter', character), 500);
-
   };
 
   const createNewCharacter = () => {
@@ -46,80 +43,107 @@ const Multichar: React.FC<MulticharProps> = ({
 
   const charAccordeon = characters.map((item) => (
     <Accordion.Item key={`${item.charId}`} value={`${item.charId}`}>
-      <Accordion.Control icon={<BsPerson />}>
-        {item.firstName} {item.lastName}
+      <Accordion.Control icon={<BsPerson size="0.8rem" />}>
+        <Text size="sm">{item.firstName} {item.lastName}</Text>
       </Accordion.Control>
       <Accordion.Panel>
-        <Text>
-          State ID:
-          <Tooltip label={!clipboard.copied ? 'Click to copy' : 'Copied !'} color="#3c3c3c" c="#545454">
-            <Code
-              style={{
-                fontSize: 15,
-              }}
-              onClick={() => {
-                clipboard.copy(item.stateId);
-                setTimeout(() => clipboard.reset(), 2000);
-              }}
+        <Stack gap="xs">
+          <Text size="sm">
+            State ID:
+            <Tooltip label={!clipboard.copied ? 'Click to copy' : 'Copied !'}>
+              <Code
+                style={{
+                  fontSize: '0.85rem',
+                  marginLeft: '0.5rem',
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  clipboard.copy(item.stateId);
+                  setTimeout(() => clipboard.reset(), 2000);
+                }}
+              >
+                {item.stateId}
+              </Code>
+            </Tooltip>
+          </Text>
+
+          <Text size="sm">Last Played: {item.lastPlayed}</Text>
+
+          <Flex gap="xs" mt="xs">
+            <Button 
+              variant="light"
+              size="xs"
+              style={{ flex: 1 }}
+              onClick={() => selectCharacter(item)}
             >
-              {item.stateId}
-            </Code>
-          </Tooltip>
-        </Text>
-
-        <Text>Last Played: {item.lastPlayed}</Text>
-
-        {canDelete ? (
-          <Flex justify="space-around" style={{ padding: '0.5em 1em' }}>
-            <Button style={{ width: '30%' }}>Delete</Button>
-            <Button style={{ width: '30%' }}>Play</Button>
-          </Flex>
-        ) : (
-          <Flex justify="space-around" style={{ padding: '0.5em 1em' }}>
-            <Button style={{ width: 'auto' }} onClick={() => selectCharacter(item)}>
               Select
             </Button>
-            <Button style={{ width: 'auto' }} onClick={() => selectCharacter(item)}>
+            <Button 
+              variant="subtle"
+              size="xs"
+              style={{ flex: 1 }}
+              onClick={() => selectCharacter(item)}
+            >
               Last Location
             </Button>
           </Flex>
-        )}
+        </Stack>
       </Accordion.Panel>
     </Accordion.Item>
   ));
 
   return (
-    <>
-      <Drawer
-        opened={opened}
-        onClose={noop}
-        title="Character Selection"
-        closeOnClickOutside={false}
-        closeOnEscape={false}
-        withCloseButton={false}
-        offset={16}
-        radius={16}
-        withOverlay={false}
-      >
-        <Flex direction={{ base: 'column', sm: 'column' }} justify="space-between" style={{ height: '88vh' }}>
-          <Accordion variant="separated" defaultValue={`${characters[0].charId}`}>
-            {charAccordeon}
-          </Accordion>
-          {canCreate && (
-            <Flex direction="column" align="center" gap={10}>
-              {characters.length !== charSlots && (
-                <Button size="md" onClick={createNewCharacter}>
-                  New Character
-                </Button>
-              )}
-              <Text size="sm">
-                Slots Available: {characters.length}/{charSlots}
-              </Text>
-            </Flex>
-          )}
-        </Flex>
-      </Drawer>
-    </>
+    <Drawer
+      opened={opened}
+      onClose={noop}
+      title="Character Selection"
+      closeOnClickOutside={false}
+      closeOnEscape={false}
+      withCloseButton={false}
+      offset={8}
+      radius={4}
+      withOverlay={false}
+      size="md"
+    >
+      <Flex direction="column" style={{ height: 'calc(100vh - 80px)' }}>
+        <Accordion 
+          variant="filled"
+          defaultValue={`${characters[0]?.charId}`}
+          styles={(theme) => ({
+            item: {
+              marginBottom: '0.5rem',
+              border: '1px solid ' + theme.colors.gray[8],
+              borderRadius: theme.radius.sm,
+            },
+            control: {
+              padding: '0.5rem 1rem',
+            },
+            panel: {
+              padding: '0.75rem',
+            }
+          })}
+        >
+          {charAccordeon}
+        </Accordion>
+        
+        {canCreate && (
+          <Flex direction="column" align="center" gap="xs" mt="auto" mb={8}>
+            {characters.length !== charSlots && (
+              <Button 
+                size="sm"
+                variant="light"
+                onClick={createNewCharacter}
+              >
+                New Character
+              </Button>
+            )}
+            <Text size="xs" c="dimmed">
+              Slots Available: {characters.length}/{charSlots}
+            </Text>
+          </Flex>
+        )}
+      </Flex>
+    </Drawer>
   );
 };
 
