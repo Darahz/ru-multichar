@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Tabs, Button, Card, Group, Text, Stack, Badge, Drawer, Flex, Image, SimpleGrid } from '@mantine/core';
+import { Tabs, Button, Card, Group, Text, Stack, Drawer, Flex, Image, SimpleGrid, rgba } from '@mantine/core';
 import { IconHome, IconBuildingSkyscraper, IconMapPin, IconApps } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { noop } from '../utils/misc';
@@ -96,25 +96,28 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
   }, []);
 
   const LocationCard: React.FC<{ location: Location }> = ({ location }) => (
-    <Card shadow="sm" padding="md" radius="md" withBorder h={300}>
+    <Card shadow="xs" padding="sm" radius="sm" withBorder h={280}>
       <Card.Section>
         <Image
           src={location.image}
-          height={160}
+          height={140}
           alt={location.name}
           fit="cover"
+          draggable={false}
         />
       </Card.Section>
-      <Stack gap="xs" mt="md" justify="space-between" h="calc(100% - 160px)">
+      <Stack gap="xs" mt="xs" justify="space-between" h="calc(100% - 140px)">
         <div>
-          <Group justify="space-between" mb="xs">
-            <Text fw={500} size="sm">{location.name}</Text>
-            <Badge size="sm">ID: {location.id}</Badge>
-          </Group>
-          <Text size="xs" c="dimmed">{location.description}</Text>
+          <Text fw={500} size="sm" mb={4}>{location.name}</Text>
+          <Text size="xs" c="dimmed" lineClamp={2}>{location.description}</Text>
         </div>
-        <Button variant="light" fullWidth size="sm" onClick={() => handleSelect(location)}>
-          Select Location
+        <Button 
+          variant="subtle" 
+          fullWidth 
+          size="xs" 
+          onClick={() => handleSelect(location)}
+        >
+          Select
         </Button>
       </Stack>
     </Card>
@@ -124,17 +127,26 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
     <Drawer
       opened={opened}
       onClose={noop}
-      title={`Select Spawn Location - ${character?.firstName || ''} ${character?.lastName || ''}`}
+      title={`Select Location - ${character?.firstName || ''} ${character?.lastName || ''}`}
       closeOnClickOutside={false}
       closeOnEscape={false}
       withCloseButton={false}
-      offset={16}
-      radius={16}
+      offset={8}
+      radius={4}
       withOverlay={false}
-      size="xl"
+      size="lg"
     >
-      <Flex direction={{ base: 'column', sm: 'column' }} justify="space-between" style={{ height: '88vh' }}>
-        <Tabs defaultValue="last" style={{ width: '100%' }}>
+      <Flex direction="column" style={{ height: 'calc(100vh - 80px)' }}>
+        <Tabs defaultValue="all" styles={() => ({
+          tab: {
+            fontSize: '0.85rem',
+            padding: '0.5rem 0.75rem',
+          },
+          panel: {
+            maxHeight: 'calc(100vh - 160px)',
+            overflowY: 'auto'
+          }
+        })}>
           <Tabs.List>
             <Tabs.Tab value="all" leftSection={<IconApps size="0.8rem" />}>All</Tabs.Tab>
             <Tabs.Tab value="hotels" leftSection={<IconHome size="0.8rem" />}>Hotels</Tabs.Tab>
@@ -143,15 +155,20 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
           </Tabs.List>
 
           <Tabs.Panel value="last" pt="xs">
-            <Button fullWidth size="lg" onClick={() => {
+            <Button 
+              variant="light"
+              size="md" 
+              fullWidth
+              onClick={() => {
                 setTimeout(() => fetchNui('mps-multichar:selectedCharacter', { character }), 500);
-            }}>
+              }}
+            >
               Spawn at Last Location
             </Button>
           </Tabs.Panel>
 
           <Tabs.Panel value="all" pt="xs">
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
               {[...hotels, ...apartments].map((location) => (
                 <LocationCard key={location.id} location={location} />
               ))}
@@ -159,7 +176,7 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
           </Tabs.Panel>
 
           <Tabs.Panel value="hotels" pt="xs">
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
               {hotels.map((hotel) => (
                 <LocationCard key={hotel.id} location={hotel} />
               ))}
@@ -167,7 +184,7 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
           </Tabs.Panel>
 
           <Tabs.Panel value="apartments" pt="xs">
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
               {apartments.map((apartment) => (
                 <LocationCard key={apartment.id} location={apartment} />
               ))}
@@ -175,11 +192,18 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
           </Tabs.Panel>
         </Tabs>
         
-        <Flex direction="column" align="center" gap={10}>
-          <Button size="md" onClick={() => setPage('multichar')}>
-            Back to Characters
-          </Button>
-        </Flex>
+        <Button 
+          variant="subtle" 
+          size="sm" 
+          onClick={() => {
+            setPage('multichar')
+            character = undefined;
+          }}
+          mt="auto"
+          mb={8}
+        >
+          Back to Characters
+        </Button>
       </Flex>
     </Drawer>
   );
