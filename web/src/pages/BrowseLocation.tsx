@@ -186,6 +186,11 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
       radius={4}
       withOverlay={false}
       size="lg"
+      styles={{
+        content: {
+          overflowY: 'hidden',
+        }
+      }}
     >
       <Flex direction="column" style={{ height: 'calc(100vh - 80px)' }}>
         <Tabs defaultValue="all" styles={() => ({
@@ -218,7 +223,9 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
             </Button>
           </Tabs.Panel>
 
-          <Tabs.Panel value="all" pt="xs">
+          <Tabs.Panel value="all" pt="xs" styles={{
+            panel:{scrollbarWidth:'none'}
+          }}>
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
               {[...hotels, ...apartments].map((location) => (
                 <LocationCard key={location.id} location={location} />

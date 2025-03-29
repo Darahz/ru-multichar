@@ -160,12 +160,33 @@ const Multichar: React.FC<MulticharProps> = ({
       radius={4}
       withOverlay={false}
       size="md"
+      styles={({
+        content: {
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(10px)',
+          height: '100vh',
+          overflow: 'hidden', // Prevent scrollbar on drawer content
+        },
+        header: {
+          backgroundColor: 'transparent',
+        },
+        title: {
+          color: 'white',
+        }
+      })}
     >
-      <Flex direction="column" style={{ height: 'calc(100vh - 80px)' }}>
+      <Flex 
+        direction="column" 
+        h="calc(100vh - 60px)"
+      >
         <Accordion 
           variant="filled"
           defaultValue={`${characters[0]?.charId}`}
           styles={(theme) => ({
+            root: {
+              overflowY: 'auto', // Add scrollbar only to accordion if needed
+              flex: 1,
+            },
             item: {
               marginBottom: '0.5rem',
               border: '1px solid ' + theme.colors.gray[8],
@@ -183,7 +204,7 @@ const Multichar: React.FC<MulticharProps> = ({
         </Accordion>
         
         {canCreate && (
-          <Flex direction="column" align="center" gap="xs" mt="auto" mb={8}>
+          <Flex direction="column" align="center" gap="xs" py={8}>
             {characters.length !== charSlots && (
               <Button 
                 size="sm"
