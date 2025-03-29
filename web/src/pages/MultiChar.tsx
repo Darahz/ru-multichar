@@ -31,10 +31,7 @@ const Multichar: React.FC<MulticharProps> = ({
   };
 
   const handleLastLocation = (character: Character) => {
-    setTimeout(() => fetchNui('mps-multichar:selectedCharacter', {
-      character,
-      coords: { x: character.x, y: character.y, z: character.z, heading: character.heading }
-    }), 500);
+    setTimeout(() => fetchNui('mps-multichar:selectedCharacter', { character }), 500);
   };
 
   const createNewCharacter = () => {
