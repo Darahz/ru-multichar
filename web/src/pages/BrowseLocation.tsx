@@ -207,25 +207,9 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
             <Tabs.Tab value="all" leftSection={<IconApps size="0.8rem" />}>All</Tabs.Tab>
             <Tabs.Tab value="hotels" leftSection={<IconHome size="0.8rem" />}>Hotels</Tabs.Tab>
             <Tabs.Tab value="apartments" leftSection={<IconBuildingSkyscraper size="0.8rem" />}>Apartments</Tabs.Tab>
-            <Tabs.Tab value="last" leftSection={<IconMapPin size="0.8rem" />}>Last Location</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="last" pt="xs">
-            <Button 
-              variant="light"
-              size="md" 
-              fullWidth
-              onClick={() => {
-                setTimeout(() => fetchNui('mps-multichar:selectedCharacter', { character }), 500);
-              }}
-            >
-              Spawn at Last Location
-            </Button>
-          </Tabs.Panel>
-
-          <Tabs.Panel value="all" pt="xs" styles={{
-            panel:{scrollbarWidth:'none'}
-          }}>
+          <Tabs.Panel value="all" pt="xs" className='location-card-all'>
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
               {[...hotels, ...apartments].map((location) => (
                 <LocationCard key={location.id} location={location} />
@@ -250,18 +234,70 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
           </Tabs.Panel>
         </Tabs>
         
-        <Button 
-          variant="subtle" 
-          size="sm" 
-          onClick={() => {
-            setPage('multichar')
-            character = undefined;
-          }}
-          mt="auto"
-          mb={8}
-        >
-          Back to Characters
-        </Button>
+        <Flex gap="xs" mt="auto" mb={8}>
+          <Button 
+            variant="subtle" 
+            size="sm"
+            style={{ flex: 1 }}
+            onClick={() => {
+              setPage('multichar')
+              character = undefined;
+            }}
+          >
+            Back to Characters
+          </Button>
+          
+          <Popover
+            width={200}
+            position="top"
+            withArrow
+            shadow="md"
+            styles={(theme) => ({
+              dropdown: {
+                backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                backdropFilter: 'blur(10px)',
+                border: `1px solid ${theme.colors.dark[4]}`,
+              }
+            })}
+          >
+            <Popover.Target>
+              <Button 
+                variant="light"
+                size="sm"
+                style={{ flex: 1 }}
+              >
+                Last Location
+              </Button>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <Stack gap="xs">
+                <Text size="sm" c="white">
+                  Spawn at last location?
+                </Text>
+                <Flex gap="xs">
+                  <Button 
+                    variant="light" 
+                    size="xs" 
+                    fullWidth
+                    onClick={() => {
+                      setTimeout(() => fetchNui('mps-multichar:selectedCharacter', { character }), 500);
+                      close();
+                    }}
+                  >
+                    Yes
+                  </Button>
+                  <Button 
+                    variant="subtle" 
+                    size="xs" 
+                    fullWidth
+                  >
+                    No
+                  </Button>
+                </Flex>
+              </Stack>
+            </Popover.Dropdown>
+          </Popover>
+        </Flex>
       </Flex>
     </Drawer>
   );
