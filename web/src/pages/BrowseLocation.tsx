@@ -92,7 +92,6 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
   useEffect(() => {
     setTimeout(() => {
       if (!opened) open();
-      console.log(character)
     }, 100);
   }, []);
 
