@@ -15,6 +15,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.location-card-all::-webkit-scrollbar{
+  display: none;
+}
+
+.location-card-all{
+  scrollbar-width: none;
+}
+
 #root {
   height: 100%;
 }
