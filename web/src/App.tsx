@@ -6,9 +6,8 @@ import Identity from './pages/Identity';
 import DevDrawer from './utils/DevDrawer';
 import Multichar from './pages/MultiChar';
 import BrowseLocation from './pages/BrowseLocation';
-import React from 'react';
 
-import { Character } from '@overextended/ox_core';
+import { Character } from '@communityox/ox_core';
 
 function App() {
   const [loaded, setLoaded] = useState<boolean>(false);

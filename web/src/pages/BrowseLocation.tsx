@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { Tabs, Button, Card, Group, Text, Stack, Drawer, Flex, Image, SimpleGrid, Popover, rgba } from '@mantine/core';
-import { IconHome, IconBuildingSkyscraper, IconMapPin, IconApps } from '@tabler/icons-react';
+import { Tabs, Button, Card, Text, Stack, Drawer, Flex, Image, SimpleGrid, Popover} from '@mantine/core';
+import { IconHome, IconBuildingSkyscraper, IconApps } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { noop } from '../utils/misc';
 import { fetchNui } from '../utils/fetchNui';
-import { Character } from '@overextended/ox_core';
+import { Character } from '@communityox/ox_core';
 
 interface Location {
   id: number;

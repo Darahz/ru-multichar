@@ -1,5 +1,5 @@
-import { cache, sleep } from '@overextended/ox_lib/client';
-import { Character, NewCharacter } from '@overextended/ox_core';
+import { cache, sleep } from '@communityox/ox_lib/client';
+import { Character, NewCharacter } from '@communityox/ox_core';
 
 const SPAWN_LOCATION = JSON.parse(GetConvar('ox:spawnLocation', '[-258.211, -293.077, 21.6132, 206.0]')) as [
   number,

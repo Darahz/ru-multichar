@@ -4,7 +4,7 @@ import { useClipboard, useDisclosure } from '@mantine/hooks';
 import { BsPerson } from 'react-icons/bs';
 import { noop } from '../utils/misc';
 import { fetchNui } from '../utils/fetchNui';
-import { Character } from '@overextended/ox_core';
+import { Character } from '@communityox/ox_core';
 
 const canDelete = false;
 const canCreate = true;
