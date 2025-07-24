@@ -11,6 +11,20 @@ const CHARACTER_SLOTS: number = GetConvarInt('ox:characterSlots', 1);
 
 let uiLoaded: boolean = false;
 
+// Handle NUI event for requesting spawn locations
+RegisterNuiCallback('mps-multichar:getSpawnLocations', async () => {
+  emitNet('mps-multichar:getSpawnLocations');
+  return { ok: true };
+});
+
+// Forward spawn locations from server to NUI
+onNet('mps-multichar:receiveSpawnLocations', (spawnLocations: any) => {
+  SendNUIMessage({
+    action: 'mps-multichar:receiveSpawnLocations',
+    data: spawnLocations,
+  });
+});
+
 onNet('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
   while (!uiLoaded) await sleep(5);
 

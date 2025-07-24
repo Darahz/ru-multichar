@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { Tabs, Button, Card, Text, Stack, Drawer, Flex, Image, SimpleGrid, Popover} from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+import { Tabs, Button, Card, Text, Stack, Drawer, Flex, Image, SimpleGrid, Popover, Loader, Center} from '@mantine/core';
 import { IconHome, IconBuildingSkyscraper, IconApps } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { noop } from '../utils/misc';
 import { fetchNui } from '../utils/fetchNui';
 import { Character } from '@communityox/ox_core';
+import { useNuiEvent } from '../hooks/useNuiEvent';
 
 interface Location {
   id: number;
@@ -19,60 +20,10 @@ interface Location {
   };
 }
 
-const hotels: Location[] = [
-  {
-    id: 1,
-    name: 'Pink Cage Motel',
-    description: 'Affordable motel in Sandy Shores',
-    image: 'https://static.wikia.nocookie.net/gtawiki/images/2/22/ThePinkCageMotel-FrontView-GTAV.PNG',
-    coords: { x: 324.55, y: -229.77, z: 54.22, w: 158.88 },
-  },
-  {
-    id: 2,
-    name: 'Von Crastenburg Hotel',
-    description: 'Luxury hotel in Downtown Los Santos',
-    image: 'https://static.wikia.nocookie.net/gtawiki/images/6/65/VonCrastenburgHotel-Vinewood-Back-GTAV.png',
-    coords: { x: -1477.14, y: -674.45, z: 29.04, w: 131.12 },
-  },
-  {
-    id: 3,
-    name: 'Bayview Lodge',
-    description: 'Peaceful motel near Paleto Bay',
-    image: 'https://static.wikia.nocookie.net/gtawiki/images/1/1b/BayviewLodge-GTAV.png',
-    coords: { x: -688.3, y: 5763.9, z: 17.33, w: 64.14 },
-  },
-];
-
-const apartments: Location[] = [
-  {
-    id: 4,
-    name: 'Eclipse Towers',
-    description: 'Luxury apartment with city view',
-    image: 'https://static.wikia.nocookie.net/gtawiki/images/3/3c/EclipseTowers-GTAV.png',
-    coords: { x: -773.12, y: 312.45, z: 85.7, w: 175.25 },
-  },
-  {
-    id: 5,
-    name: 'Alta Street',
-    description: 'Modern apartment in Downtown',
-    image: 'https://static.wikia.nocookie.net/gtawiki/images/e/e6/3AltaStreet-GTAV.png',
-    coords: { x: -269.96, y: -955.87, z: 31.22, w: 204.89 },
-  },
-  {
-    id: 6,
-    name: 'Weazel Plaza',
-    description: 'High-end apartment near Rockford Hills',
-    image: 'https://static.wikia.nocookie.net/gtawiki/images/1/11/WeazelPlaza-GTA5.png',
-    coords: { x: -909.49, y: -452.36, z: 39.6, w: 118.45 },
-  },
-  {
-    id: 7,
-    name: 'Del Perro Heights',
-    description: 'Beachside luxury living',
-    image: 'https://static.wikia.nocookie.net/gtawiki/images/0/03/DelPerroHeights-GTAV.png',
-    coords: { x: -1447.06, y: -537.96, z: 34.74, w: 208.34 },
-  },
-];
+interface SpawnLocationsData {
+  hotels: Location[];
+  apartments: Location[];
+}
 
 interface BrowseLocationProps {
   setPage: (page: string) => void;
@@ -81,6 +32,26 @@ interface BrowseLocationProps {
 
 const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [spawnLocations, setSpawnLocations] = useState<SpawnLocationsData>({
+    hotels: [],
+    apartments: []
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Request spawn locations from server when component mounts
+  useEffect(() => {
+    fetchNui('mps-multichar:getSpawnLocations');
+  }, []);
+
+  // Listen for spawn locations data from server
+  useNuiEvent('mps-multichar:receiveSpawnLocations', (data: SpawnLocationsData) => {
+    setSpawnLocations(data);
+    setIsLoading(false);
+  });
+
+  // Extract hotels and apartments from the loaded data
+  const hotels: Location[] = spawnLocations.hotels;
+  const apartments: Location[] = spawnLocations.apartments;
 
   const handleSelect = (location: Location) => {
     setTimeout(
@@ -211,27 +182,45 @@ const BrowseLocation: React.FC<BrowseLocationProps> = ({ setPage, character }) =
           </Tabs.List>
 
           <Tabs.Panel value="all" pt="xs" className="location-card-all">
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-              {[...hotels, ...apartments].map((location) => (
-                <LocationCard key={location.id} location={location} />
-              ))}
-            </SimpleGrid>
+            {isLoading ? (
+              <Center h={200}>
+                <Loader size="md" />
+              </Center>
+            ) : (
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                {[...hotels, ...apartments].map((location) => (
+                  <LocationCard key={location.id} location={location} />
+                ))}
+              </SimpleGrid>
+            )}
           </Tabs.Panel>
 
           <Tabs.Panel value="hotels" pt="xs">
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-              {hotels.map((hotel) => (
-                <LocationCard key={hotel.id} location={hotel} />
-              ))}
-            </SimpleGrid>
+            {isLoading ? (
+              <Center h={200}>
+                <Loader size="md" />
+              </Center>
+            ) : (
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                {hotels.map((hotel) => (
+                  <LocationCard key={hotel.id} location={hotel} />
+                ))}
+              </SimpleGrid>
+            )}
           </Tabs.Panel>
 
           <Tabs.Panel value="apartments" pt="xs">
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-              {apartments.map((apartment) => (
-                <LocationCard key={apartment.id} location={apartment} />
-              ))}
-            </SimpleGrid>
+            {isLoading ? (
+              <Center h={200}>
+                <Loader size="md" />
+              </Center>
+            ) : (
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                {apartments.map((apartment) => (
+                  <LocationCard key={apartment.id} location={apartment} />
+                ))}
+              </SimpleGrid>
+            )}
           </Tabs.Panel>
         </Tabs>
 
