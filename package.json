@@ -1,9 +1,9 @@
 {
-  "name": "multichar-4-oxcore",
-  "author": "Maximus7474",
+  "name": "ru-multichar",
+  "author": "Maximus7474 updated by Darahz",
   "version": "0.1.4",
   "license": "MIT",
-  "description": "A simple proof of concept multichar for ox_core",
+  "description": "Multichar script for ox_core",
   "type": "module",
   "scripts": {
     "web:dev": "cd web && vite dev",
