@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "web:dev": "cd web && vite dev",
-    "build": "node scripts/build.js",
+    "build": "node scripts/build.js && powershell -ExecutionPolicy Bypass -File scripts/move-build.ps1",
     "watch": "node scripts/build.js --watch",
     "prettier": "prettier ./{src,web}/**/*.{ts,tsx} --write",
     "eslint": "eslint ./{src,web}/**/*.{ts,tsx}"
@@ -19,9 +19,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Maximus7474/mps-multichar-4-oxcore.git"
+    "url": "https://github.com/Darahz/ru-multichar.git"
   },
-  "bugs": "https://github.com/Maximus7474/mps-multichar-4-oxcore/issues",
+  "bugs": "https://github.com/Darahz/ru-multichar/issues",
   "devDependencies": {
     "@citizenfx/client": "2.0.13890-1",
     "@citizenfx/server": "2.0.13890-1",

@@ -9,6 +9,6 @@ pnpm install
 
 Use `pnpm watch` to actively rebuild modified files while developing the resource.
 
-Use `pnpm build` to build all project files in production mode.
+Use `pnpm build` to build all project files. Buildt files will be moved into a "builds" directory
 
 ```
